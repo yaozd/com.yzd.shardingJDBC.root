@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzd.shardingJDBC.demo.dao.mapper.TbOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.yzd.shardingJDBC.demo.entity.TbOrder" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="o_create_time" property="oCreateTime" jdbcType="TIMESTAMP" />
+    <result column="o_update_time" property="oUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, user_id, o_create_time, o_update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.yzd.shardingJDBC.demo.entity.TbOrder" useGeneratedKeys="true" keyProperty="orderId" >
+    insert into tb_order (user_id, o_create_time, o_update_time
+      )
+    values (#{userId,jdbcType=BIGINT}, #{oCreateTime,jdbcType=TIMESTAMP}, #{oUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yzd.shardingJDBC.demo.entity.TbOrder" useGeneratedKeys="true" keyProperty="orderId" >
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="oCreateTime != null" >
+        o_create_time,
+      </if>
+      <if test="oUpdateTime != null" >
+        o_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="oCreateTime != null" >
+        #{oCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oUpdateTime != null" >
+        #{oUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yzd.shardingJDBC.demo.entity.TbOrder" >
+    update tb_order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="oCreateTime != null" >
+        o_create_time = #{oCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oUpdateTime != null" >
+        o_update_time = #{oUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yzd.shardingJDBC.demo.entity.TbOrder" >
+    update tb_order
+    set user_id = #{userId,jdbcType=BIGINT},
+      o_create_time = #{oCreateTime,jdbcType=TIMESTAMP},
+      o_update_time = #{oUpdateTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="createTbOrderIfNotExistsTable">
+    CREATE TABLE IF NOT EXISTS tb_order
+      (
+         order_id             bigint                         not null,
+         user_id              bigint                         null,
+         o_create_time        datetime                       null,
+         o_update_time        datetime                       null,
+         constraint PK_TB_ORDER primary key clustered (order_id)
+      )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  </update>
+</mapper>
