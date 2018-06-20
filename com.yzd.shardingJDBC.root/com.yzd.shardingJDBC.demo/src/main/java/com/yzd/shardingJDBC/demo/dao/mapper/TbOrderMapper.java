@@ -1,6 +1,10 @@
 package com.yzd.shardingJDBC.demo.dao.mapper;
 
 import com.yzd.shardingJDBC.demo.entity.TbOrder;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface TbOrderMapper {
     int insert(TbOrder record);
@@ -17,4 +21,13 @@ public interface TbOrderMapper {
      * @return
      */
     int createTbOrderIfNotExistsTable();
+
+    /***
+     *
+     * @param orderIdList
+     * @return
+     */
+    List<TbOrder> selectForIn1(@Param("orderIdList")String orderIdList);
+
+    List<TbOrder> selectForIn2(Map<String,Object> params);
 }

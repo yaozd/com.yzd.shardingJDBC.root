@@ -69,6 +69,7 @@
       o_update_time = #{oUpdateTime,jdbcType=TIMESTAMP}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
+  <!--================================================== 分割线 ==================================================-->
   <update id="createTbOrderIfNotExistsTable">
     CREATE TABLE IF NOT EXISTS tb_order
       (
@@ -79,4 +80,21 @@
          constraint PK_TB_ORDER primary key clustered (order_id)
       )ENGINE=InnoDB DEFAULT CHARSET=utf8;
   </update>
+  <!--IN操作方式一：直接使用变量的方式，shardingJDBC是无法解析，preciseShardingValue的值是字符串类型-->
+  <select id="selectForIn1" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    where order_id IN (${orderIdList})
+  </select>
+  <!--IN操作方式二：直接使用foreach的方式，shardingJDBC是可以正常解析，preciseShardingValue的值是Long类型-->
+  <select id="selectForIn2" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    where order_id IN
+    <foreach collection="orderIdList" index="index" item="orderId" open="(" separator="," close=")">
+      #{orderId}
+    </foreach>
+  </select>
 </mapper>

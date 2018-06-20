@@ -7,6 +7,11 @@ import com.yzd.shardingJDBC.demo.entity.TbOrder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class TbOrder_UnitTest extends _BaseUnitTest {
     @Autowired
@@ -41,6 +46,28 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
     @Test
     public void selectByPrimaryKey_Test(){
         TbOrder item= tbOrderMapper.selectByPrimaryKey(1L);
+    }
+
+    /***
+     * IN操作方式一：直接使用变量的方式，shardingJDBC是无法解析，preciseShardingValue的值是字符串类型，所以会报异常
+     *
+     */
+    @Test
+    public void selectForIn1_Test(){
+        tbOrderMapper.selectForIn1("'1,2'");
+    }
+
+    /***
+     * IN操作方式二：直接使用foreach的方式，shardingJDBC是可以正常解析，preciseShardingValue的值是Long类型
+     */
+    @Test
+    public void selectForIn2_Test(){
+        List<Long> orderIdList=new ArrayList<>();
+        orderIdList.add(1L);
+        orderIdList.add(2L);
+        Map<String,Object> params=new HashMap<>();
+        params.put("orderIdList",orderIdList);
+        tbOrderMapper.selectForIn2(params);
     }
     @Test
     public void updateByPrimaryKey_Test(){
