@@ -1,4 +1,4 @@
-package com.yzd.shardingJDBC.demo.utils;
+package com.yzd.shardingJDBC.demo.utils.fastJsonExt;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.yzd.shardingJDBC.demo.dao.mapper.TbOrderMapper;
 import com.yzd.shardingJDBC.demo.entity.TbOrder;
+import com.yzd.shardingJDBC.demo.utils.betweenExt.RangeWhere;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,6 +45,13 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
         tbOrderMapper.insert(item);
     }
     @Test
+    public void updateByPrimaryKey_Test(){
+        TbOrder item=new TbOrder();
+        item.setOrderId(1L);
+        item.setUserId(Long.parseLong(RandomUtil.randomNumbers(4)));
+        int n=tbOrderMapper.updateByPrimaryKey(item);
+    }
+    @Test
     public void selectByPrimaryKey_Test(){
         TbOrder item= tbOrderMapper.selectByPrimaryKey(1L);
     }
@@ -54,6 +62,7 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
      */
     @Test
     public void selectForIn1_Test(){
+        //IN操作方式一：直接使用变量的方式，shardingJDBC是无法解析，preciseShardingValue的值是字符串类型，所以会报异常
         tbOrderMapper.selectForIn1("'1,2'");
     }
 
@@ -70,10 +79,24 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
         tbOrderMapper.selectForIn2(params);
     }
     @Test
-    public void updateByPrimaryKey_Test(){
-        TbOrder item=new TbOrder();
-        item.setOrderId(1L);
-        item.setUserId(Long.parseLong(RandomUtil.randomNumbers(4)));
-        int n=tbOrderMapper.updateByPrimaryKey(item);
+    public void selectForBetween1_Test(){
+        Map<String,Object> params=new HashMap<>();
+        params.put("beginVal",10L);
+        params.put("endVal",10L);
+        tbOrderMapper.selectForBetween(params);
+    }
+    @Test
+    public void selectForBetween2_Test(){
+        RangeWhere rangeWhere=new RangeWhere(1L,10L);
+        Map<String,Object> params=new HashMap<>();
+        params.put("beginVal",rangeWhere.getBeginValue());
+        params.put("endVal",rangeWhere.getEndValue());
+        tbOrderMapper.selectForBetween(params);
+    }
+    @Test
+    public void sel_Test(){
+        TbOrder item = new TbOrder();
+        item.setUserId(1L);
+        tbOrderMapper.selectSelective(item);
     }
 }

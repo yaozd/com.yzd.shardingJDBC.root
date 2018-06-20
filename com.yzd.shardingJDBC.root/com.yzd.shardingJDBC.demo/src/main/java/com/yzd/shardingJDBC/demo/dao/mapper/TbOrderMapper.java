@@ -29,5 +29,25 @@ public interface TbOrderMapper {
      */
     List<TbOrder> selectForIn1(@Param("orderIdList")String orderIdList);
 
+    /***
+     *
+     * @param params
+     * @return
+     */
     List<TbOrder> selectForIn2(Map<String,Object> params);
+
+    /***
+     *
+     * @param params
+     * @return
+     */
+    //List<TbOrder> selectForBetween(@Param("params")Map<String,Object> params);
+    List<TbOrder> selectForBetween(Map<String,Object> params);
+
+    /***
+     *
+     * @param record
+     * @return
+     */
+    List<TbOrder> selectSelective(TbOrder record);
 }

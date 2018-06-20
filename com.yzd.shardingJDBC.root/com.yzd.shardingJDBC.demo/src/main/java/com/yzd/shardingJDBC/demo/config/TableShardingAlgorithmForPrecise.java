@@ -1,6 +1,6 @@
 package com.yzd.shardingJDBC.demo.config;
 
-import com.yzd.shardingJDBC.demo.utils.FastJsonUtil;
+import com.yzd.shardingJDBC.demo.utils.fastJsonExt.FastJsonUtil;
 import io.shardingjdbc.core.api.algorithm.sharding.PreciseShardingValue;
 import io.shardingjdbc.core.api.algorithm.sharding.standard.PreciseShardingAlgorithm;
 

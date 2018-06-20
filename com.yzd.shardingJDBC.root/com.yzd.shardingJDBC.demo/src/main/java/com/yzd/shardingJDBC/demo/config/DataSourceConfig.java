@@ -33,7 +33,7 @@ public class DataSourceConfig {
         //shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
         //shardingRuleConfig.getBindingTableGroups().add("tb_order");
         //默认分库分表的规则
-        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DatabaseShardingAlgorithmForPrecise.class.getName()));
+        shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DatabaseShardingAlgorithmForPrecise.class.getName(),DatabaseShardingAlgorithmForRange.class.getName()));
         //shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DemoDatabaseShardingAlgorithm.class.getName()));
         //shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("user_id", DemoTableShardingAlgorithm.class.getName()));
         //shardingRuleConfig.setDefaultTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DemoTableShardingAlgorithm.class.getName()));

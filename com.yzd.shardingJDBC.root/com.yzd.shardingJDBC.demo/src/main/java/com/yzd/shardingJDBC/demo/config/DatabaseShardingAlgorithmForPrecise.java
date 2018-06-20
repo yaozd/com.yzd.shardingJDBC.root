@@ -1,6 +1,6 @@
 package com.yzd.shardingJDBC.demo.config;
 
-import com.yzd.shardingJDBC.demo.utils.FastJsonUtil;
+import com.yzd.shardingJDBC.demo.utils.fastJsonExt.FastJsonUtil;
 import io.shardingjdbc.core.api.algorithm.sharding.PreciseShardingValue;
 import io.shardingjdbc.core.api.algorithm.sharding.standard.PreciseShardingAlgorithm;
 
@@ -17,8 +17,8 @@ public class DatabaseShardingAlgorithmForPrecise implements PreciseShardingAlgor
     public String doSharding(Collection<String> collection, PreciseShardingValue<Long> preciseShardingValue) {
         System.out.println("DemoDatabaseShardingAlgorithm->collection"+ FastJsonUtil.serialize(collection));
         System.out.println("DemoDatabaseShardingAlgorithm->preciseShardingValue"+FastJsonUtil.serialize(preciseShardingValue));
+        String db_suffix=preciseShardingValue.getValue()>1L?"_1":"_2";
         for (String each : collection) {
-            String db_suffix=preciseShardingValue.getValue()>1L?"_1":"_2";
             if(each.endsWith(db_suffix)){
                 System.out.println("selected db="+each);
                 return each;

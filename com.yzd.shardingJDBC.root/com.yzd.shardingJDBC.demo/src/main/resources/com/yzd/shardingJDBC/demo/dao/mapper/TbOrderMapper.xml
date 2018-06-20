@@ -97,4 +97,15 @@
       #{orderId}
     </foreach>
   </select>
+  <select id="selectForBetween" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    where order_id BETWEEN  #{beginVal} AND #{endVal}
+  </select>
+  <select id="selectSelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+  </select>
 </mapper>
