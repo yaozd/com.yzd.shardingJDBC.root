@@ -50,4 +50,16 @@ public interface TbOrderMapper {
      * @return
      */
     List<TbOrder> selectSelective(TbOrder record);
+    /***
+     *
+     * @param params
+     * @return
+     */
+    List<TbOrder> selectWhere(Map<String,Object> params);
+    /***
+     *
+     * @param params
+     * @return
+     */
+    List<TbOrder> selectAll(Map<String,Object> params);
 }

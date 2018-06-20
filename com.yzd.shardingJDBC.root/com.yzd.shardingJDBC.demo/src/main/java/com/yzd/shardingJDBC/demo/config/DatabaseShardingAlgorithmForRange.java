@@ -1,11 +1,11 @@
 package com.yzd.shardingJDBC.demo.config;
 
+import com.google.common.collect.Range;
 import com.yzd.shardingJDBC.demo.utils.betweenExt.StoreRegion;
 import com.yzd.shardingJDBC.demo.utils.betweenExt.StoreRegionForDB;
 import com.yzd.shardingJDBC.demo.utils.fastJsonExt.FastJsonUtil;
 import io.shardingjdbc.core.api.algorithm.sharding.RangeShardingValue;
 import io.shardingjdbc.core.api.algorithm.sharding.standard.RangeShardingAlgorithm;
-import com.google.common.collect.Range;
 
 import java.util.ArrayList;
 import java.util.Collection;

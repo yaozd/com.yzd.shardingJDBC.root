@@ -5,6 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.yzd.shardingJDBC.demo.dao.mapper.TbOrderMapper;
 import com.yzd.shardingJDBC.demo.entity.TbOrder;
 import com.yzd.shardingJDBC.demo.utils.betweenExt.RangeWhere;
+import com.yzd.shardingJDBC.demo.utils.fastJsonExt.FastJsonUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -82,8 +83,9 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
     public void selectForBetween1_Test(){
         Map<String,Object> params=new HashMap<>();
         params.put("beginVal",10L);
-        params.put("endVal",10L);
-        tbOrderMapper.selectForBetween(params);
+        params.put("endVal",1215876039572717568L);
+        List<TbOrder> orderList=tbOrderMapper.selectForBetween(params);
+        System.out.println(FastJsonUtil.serialize(orderList));
     }
     @Test
     public void selectForBetween2_Test(){
@@ -93,10 +95,39 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
         params.put("endVal",rangeWhere.getEndValue());
         tbOrderMapper.selectForBetween(params);
     }
+
+    /***
+     *  <!--直接把分片信息[where order_id BETWEEN 1 and 215876039572717568]写在mapper中报两种错误-->
+     *  <!--错误1：发生integer 不能转为Long的异常-->
+     *  <!--错误2：发生Long 不能转为integer的异常-->
+     *  <!--解决方法：通过变量进行传值就可以了-->
+     */
     @Test
-    public void sel_Test(){
-        TbOrder item = new TbOrder();
-        item.setUserId(1L);
-        tbOrderMapper.selectSelective(item);
+    public void selectSelective_Test(){
+        TbOrder itemWhere = new TbOrder();
+        itemWhere.setUserId(1L);
+        List<TbOrder> orderList=tbOrderMapper.selectSelective(itemWhere);
+        System.out.println(FastJsonUtil.serialize(orderList));
+    }
+
+    /***
+     *  <!--order_id >1 and order_id <= 215876039572717568  shardingJDBC是不支持的，无法正常解析-->
+     *  <!--order_id BETWEEN  #{beginVal} AND #{endVal}  shardingJDBC是可以正常解析-->
+     */
+    @Test
+    public void selectWhere_Test(){
+        Map<String,Object> params=new HashMap<>();
+        params.put("beginVal",10L);
+        params.put("endVal",1215876039572717568L);
+        List<TbOrder> orderList=tbOrderMapper.selectWhere(params);
+        System.out.println(FastJsonUtil.serialize(orderList));
+    }
+    @Test
+    public void selectAll_Test(){
+        Map<String,Object> params=new HashMap<>();
+        params.put("beginVal",10L);
+        params.put("endVal",1215876039572717568L);
+        List<TbOrder> orderList=tbOrderMapper.selectAll(params);
+        System.out.println(FastJsonUtil.serialize(orderList));
     }
 }

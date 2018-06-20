@@ -1,8 +1,6 @@
 package com.yzd.shardingJDBC.demo.config;
 
-import io.shardingjdbc.core.api.algorithm.sharding.PreciseShardingValue;
 import io.shardingjdbc.core.api.algorithm.sharding.RangeShardingValue;
-import io.shardingjdbc.core.api.algorithm.sharding.standard.PreciseShardingAlgorithm;
 import io.shardingjdbc.core.api.algorithm.sharding.standard.RangeShardingAlgorithm;
 
 import java.util.Collection;

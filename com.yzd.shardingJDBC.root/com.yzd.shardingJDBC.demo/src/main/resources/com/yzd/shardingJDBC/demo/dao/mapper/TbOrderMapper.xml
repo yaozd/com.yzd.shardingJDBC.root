@@ -103,7 +103,27 @@
     from tb_order
     where order_id BETWEEN  #{beginVal} AND #{endVal}
   </select>
+  <!--直接把分片信息[where order_id BETWEEN 1 and 215876039572717568]写在mapper中报两种错误-->
+  <!--错误1：发生integer 不能转为Long的异常-->
+  <!--错误2：发生Long 不能转为integer的异常-->
+  <!--解决方法：通过变量进行传值就可以了-->
   <select id="selectSelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    where order_id BETWEEN 1 and 215876039572717568
+  </select>
+  <!--order_id >1 and order_id <= 215876039572717568  shardingJDBC路由是不支持的无法正常解析-->
+  <!--order_id BETWEEN  #{beginVal} AND #{endVal}  shardingJDBC路由是可以正常解析-->
+  <select id="selectWhere" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    <![CDATA[
+    where order_id >1 and order_id <= 215876039572717568 and order_id BETWEEN  #{beginVal} AND #{endVal}
+    ]]>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from tb_order
