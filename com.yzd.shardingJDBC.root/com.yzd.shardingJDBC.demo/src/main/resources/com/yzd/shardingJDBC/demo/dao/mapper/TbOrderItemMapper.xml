@@ -80,4 +80,17 @@
        constraint PK_TB_ORDER_ITEM primary key clustered (item_id)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
   </update>
+  <select id="selectForJoin1" resultMap="BaseResultMap">
+    select
+    tb_order_item.item_id, tb_order_item.order_id, tb_order_item.o_create_time, tb_order_item.o_update_time
+    from tb_order_item  INNER JOIN tb_order on tb_order_item.order_id=tb_order.order_id
+    where tb_order_item.order_id = #{tbOrderItem_itemId} and tb_order.order_id = #{tbOrder_itemId}
+  </select>
+  <!--Join使用别名 shardingJDBC路由是正常解析-->
+  <select id="selectForJoin2" resultMap="BaseResultMap">
+    select
+    A.item_id, A.order_id, A.o_create_time, A.o_update_time
+    from tb_order_item  A INNER JOIN tb_order on A.order_id=tb_order.order_id
+    where A.order_id = #{tbOrderItem_itemId} and tb_order.order_id = #{tbOrder_itemId}
+  </select>
 </mapper>

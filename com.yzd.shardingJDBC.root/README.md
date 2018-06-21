@@ -25,3 +25,22 @@ u1:代表 userId的范围
 o1:代表 orderId的范围
 可以分别对userId与orderId进行范围的StoreRegion计算，然后合并两个suffix，最后将合并结果与分库信息进行比较
 ```
+#### 参考
+```
+sharding jdbc + mybatis +spring boot的分库分表实现 - 简书
+https://www.jianshu.com/p/3b2ab87b0de7
+sharding-JDBC 实现读写分离 - 做个有梦想的咸鱼 - 博客园
+https://www.cnblogs.com/boothsun/p/7853526.html
+官方文档-模块说明
+http://shardingjdbc.io/document/legacy/2.x/cn/03-design/module/
+官方文档-核心概念
+http://shardingjdbc.io/document/legacy/2.x/cn/02-guide/concepts/
+官方文档-使用限制
+http://shardingjdbc.io/document/legacy/2.x/cn/01-start/limitations/
+【分库分表】sharding-jdbc—分片策略 - Mr.yang.localhost - 博客园
+https://www.cnblogs.com/mr-yang-localhost/p/8313360.html#_label0
+【分库分表】sharding-jdbc—解决的问题 - Mr.yang.localhost - 博客园
+https://www.cnblogs.com/mr-yang-localhost/p/8120543.html
+shardingjdbc 学习(四)-SQL路由实现 - CSDN博客
+https://blog.csdn.net/bohu83/article/details/80571367
+```

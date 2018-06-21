@@ -29,10 +29,11 @@ public class DataSourceConfig {
     DataSource getShardingDataSource() throws SQLException {
         ShardingRuleConfiguration shardingRuleConfig;
         shardingRuleConfig = new ShardingRuleConfiguration();
-        shardingRuleConfig.getTableRuleConfigs().add(getUserTableRuleConfiguration());
+        shardingRuleConfig.getTableRuleConfigs().add(getOrderTableRuleConfiguration());
         shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
-        //shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
-        //shardingRuleConfig.getBindingTableGroups().add("tb_order");
+        //BindingTable:指在任何场景下分片规则均一致的主表和子表。例：订单表和订单项表，均按照订单ID分片，则此两张表互为BindingTable关系。BindingTable关系的多表关联查询不会出现笛卡尔积关联，关联查询效率将大大提升。
+        //BindingTable 绑定后则以主表进行分片操作，所以在使用join的情况下最好进行绑定表BindingTable
+        shardingRuleConfig.getBindingTableGroups().add("tb_order,tb_order_item");
         //默认分库分表的规则
         shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DatabaseShardingAlgorithmForPrecise.class.getName(),DatabaseShardingAlgorithmForRange.class.getName()));
         //shardingRuleConfig.setDefaultDatabaseShardingStrategyConfig(new StandardShardingStrategyConfiguration("order_id", DemoDatabaseShardingAlgorithm.class.getName()));
@@ -42,7 +43,7 @@ public class DataSourceConfig {
         //return ShardingDataSourceFactory.createDataSource(createDataSourceMap(), shardingRuleConfig);
     }
 
-    TableRuleConfiguration getUserTableRuleConfiguration() {
+    TableRuleConfiguration getOrderTableRuleConfiguration() {
         TableRuleConfiguration orderTableRuleConfig = new TableRuleConfiguration();
         orderTableRuleConfig.setLogicTable("tb_order");
         //table的配置写法-01(是groovy动态语法，代表0到1进行循环)
@@ -51,6 +52,7 @@ public class DataSourceConfig {
         orderTableRuleConfig.setActualDataNodes("db_order_1.tb_order,db_order_2.tb_order");
         //
         //orderTableRuleConfig.setKeyGeneratorClass(MyKeyGenerator.class);
+        //理论上讲订单的order_id，是要显示赋值的。不能隐藏起来这样就拿不到订单ID的，目前这里只是为测试方便然而已
         orderTableRuleConfig.setKeyGeneratorColumnName("order_id");
         //自定义分库分表的规则
         //orderTableRuleConfig.setTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("user_id",DemoTableShardingAlgorithm.class.getName()));
