@@ -31,6 +31,7 @@ public class DataSourceConfig {
         shardingRuleConfig = new ShardingRuleConfiguration();
         shardingRuleConfig.getTableRuleConfigs().add(getOrderTableRuleConfiguration());
         shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
+        shardingRuleConfig.getTableRuleConfigs().add(getOrderPayTableRuleConfiguration());
         //BindingTable:指在任何场景下分片规则均一致的主表和子表。例：订单表和订单项表，均按照订单ID分片，则此两张表互为BindingTable关系。BindingTable关系的多表关联查询不会出现笛卡尔积关联，关联查询效率将大大提升。
         //BindingTable 绑定后则以主表进行分片操作，所以在使用join的情况下最好进行绑定表BindingTable
         shardingRuleConfig.getBindingTableGroups().add("tb_order,tb_order_item");
@@ -68,7 +69,14 @@ public class DataSourceConfig {
         orderItemTableRuleConfig.setKeyGeneratorColumnName("item_id");
         return orderItemTableRuleConfig;
     }
-
+    TableRuleConfiguration getOrderPayTableRuleConfiguration() {
+        TableRuleConfiguration orderItemTableRuleConfig = new TableRuleConfiguration();
+        orderItemTableRuleConfig.setLogicTable("tb_order_pay");
+        orderItemTableRuleConfig.setActualDataNodes("db_order_1.tb_order_pay,db_order_2.tb_order_pay");
+        //这些主键采用显示赋值，不在使用内部的自动生成
+        //orderItemTableRuleConfig.setKeyGeneratorColumnName("pay_id");
+        return orderItemTableRuleConfig;
+    }
     /**
      * 需要手动配置事务管理器
      *
