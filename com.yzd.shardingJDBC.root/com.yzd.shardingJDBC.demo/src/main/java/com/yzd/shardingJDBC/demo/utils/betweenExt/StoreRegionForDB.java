@@ -9,9 +9,11 @@ import java.util.List;
  * Created by zd.yao on 2017/11/2.
  */
 public enum StoreRegionForDB {
-    db_order_1(0L,201807L,"_1","订单库：存在2018年数据"),
-    db_order_2(201807L,226502967908433920L,"_2",""),
-    db_order_3(226502967908433921L,236502967908433920L,"_3","");
+    ////新纪元--此值一定要与IdGenerator.SJDBC_EPOCH保持相同，目前2016-11-01是当当，当前定义的,是可以改的。
+    ////IdGenerator.SJDBC_EPOCH=2016-11-01 00:00:00=1477929600000L
+    db_order_1(0L,154377230745599999L,"_1","订单库2017数据：2017年最大值=154377230745599999"),
+    db_order_2(154377230745600000L,286648801689599999L,"_2","订单库2018数据：2018年最小值154377230745600000至2018年最大值=286648801689599999"),
+    db_order_3(286648801689600000L,418920372633599999L,"_3","订单库2019数据：2019年最小值286648801689600000至2019年最大值=418920372633599999");
     StoreRegionForDB (Long begin,Long end,String suffix,String des){
         this.region=new StoreRegion(begin,end);
         this.suffix=suffix;

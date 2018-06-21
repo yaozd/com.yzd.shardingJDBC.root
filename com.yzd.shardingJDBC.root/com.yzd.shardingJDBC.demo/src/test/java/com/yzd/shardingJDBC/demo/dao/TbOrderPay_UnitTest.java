@@ -34,8 +34,8 @@ public class TbOrderPay_UnitTest extends _BaseUnitTest {
     @Test
     public void insert_noSetKeyGenerator_Test(){
         TbOrderPay item=new TbOrderPay();
-        item.setPayId(200L);
-        item.setOrderId(2000L);
+        item.setPayId(400L);
+        item.setOrderId(4000L);
         tbOrderPayMapper.insert(item);
     }
 }
