@@ -18,3 +18,10 @@
 参考：
 http://shardingjdbc.io/document/legacy/2.x/cn/02-guide/sharding/
 ```
+#### 分片键数据库的计算思路(ComplexShardingStrategy)
+```
+分片键数据库=DB_Order_u1_o1,DB_Order_u2_o2
+u1:代表 userId的范围
+o1:代表 orderId的范围
+可以分别对userId与orderId进行范围的StoreRegion计算，然后合并两个suffix，最后将合并结果与分库信息进行比较
+```

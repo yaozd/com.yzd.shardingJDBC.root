@@ -10,8 +10,8 @@ import java.util.List;
  */
 public enum StoreRegionForDB {
     db_order_1(0L,201807L,"_1","订单库：存在2018年数据"),
-    db_order_2(201807L,202000L,"_2",""),
-    db_order_3(202000L,202107L,"_3","");
+    db_order_2(201807L,226502967908433920L,"_2",""),
+    db_order_3(226502967908433921L,236502967908433920L,"_3","");
     StoreRegionForDB (Long begin,Long end,String suffix,String des){
         this.region=new StoreRegion(begin,end);
         this.suffix=suffix;
