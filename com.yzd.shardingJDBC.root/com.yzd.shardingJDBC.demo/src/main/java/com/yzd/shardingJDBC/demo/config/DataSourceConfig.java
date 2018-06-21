@@ -30,6 +30,7 @@ public class DataSourceConfig {
         ShardingRuleConfiguration shardingRuleConfig;
         shardingRuleConfig = new ShardingRuleConfiguration();
         shardingRuleConfig.getTableRuleConfigs().add(getUserTableRuleConfiguration());
+        shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
         //shardingRuleConfig.getTableRuleConfigs().add(getOrderItemTableRuleConfiguration());
         //shardingRuleConfig.getBindingTableGroups().add("tb_order");
         //默认分库分表的规则
@@ -57,12 +58,14 @@ public class DataSourceConfig {
         return orderTableRuleConfig;
     }
 
-//    TableRuleConfiguration getOrderItemTableRuleConfiguration() {
-//        TableRuleConfiguration orderItemTableRuleConfig = new TableRuleConfiguration();
-//        orderItemTableRuleConfig.setLogicTable("t_order_item");
-//        orderItemTableRuleConfig.setActualDataNodes("demo_ds_${0..1}.t_order_item_${0..1}");
-//        return orderItemTableRuleConfig;
-//    }
+    TableRuleConfiguration getOrderItemTableRuleConfiguration() {
+        TableRuleConfiguration orderItemTableRuleConfig = new TableRuleConfiguration();
+        orderItemTableRuleConfig.setLogicTable("tb_order_item");
+        orderItemTableRuleConfig.setActualDataNodes("db_order_1.tb_order_item,db_order_2.tb_order_item");
+        //SQLException: Field 'item_id' doesn't have a default value的问题可能是没有设置setKeyGeneratorColumnName("item_id")
+        orderItemTableRuleConfig.setKeyGeneratorColumnName("item_id");
+        return orderItemTableRuleConfig;
+    }
 
     /**
      * 需要手动配置事务管理器

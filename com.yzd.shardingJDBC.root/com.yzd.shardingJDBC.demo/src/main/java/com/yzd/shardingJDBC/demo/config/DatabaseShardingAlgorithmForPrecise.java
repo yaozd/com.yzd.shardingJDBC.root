@@ -25,6 +25,7 @@ public class DatabaseShardingAlgorithmForPrecise implements PreciseShardingAlgor
     }
 
     /***
+     * 方法二：
      * 在分库分表的IN ,=操作就相当于StoreRegion t2=new StoreRegion(1L,1L);
      * order_id=1,等价于 order_id>=1 and order_id<=1;
      * 目前推荐Precise与range都使用StoreRegion方法，这样计算逻辑就统一了。
