@@ -25,6 +25,14 @@ u1:代表 userId的范围
 o1:代表 orderId的范围
 可以分别对userId与orderId进行范围的StoreRegion计算，然后合并两个suffix，最后将合并结果与分库信息进行比较
 ```
+#### 多分片键数据库表的设计思路(ComplexShardingStrategy)
+##### --- 通过存储空间换取更高的设计灵活性
+```
+0.假设用户ID与订单ID是分片存储的计算的参数
+1.用户ID与订单ID存储到所有的表中
+2.缺点有的表存储了用户ID会增加存储空间
+3.方便以后的数据迁移。具有很高的灵活性
+```
 #### 参考
 ```
 sharding jdbc + mybatis +spring boot的分库分表实现 - 简书

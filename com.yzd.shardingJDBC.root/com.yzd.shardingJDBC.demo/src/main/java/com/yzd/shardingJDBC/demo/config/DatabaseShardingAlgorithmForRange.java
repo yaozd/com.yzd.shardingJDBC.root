@@ -38,7 +38,7 @@ public class DatabaseShardingAlgorithmForRange implements RangeShardingAlgorithm
             });
         }
         if(shardingDB.isEmpty()){
-            throw new UnsupportedOperationException("DatabaseShardingAlgorithmForRange->suffixList.isEmpty()");
+            throw new UnsupportedOperationException("DatabaseShardingAlgorithmForRange->shardingDB.isEmpty()");
         }
         return shardingDB;
     }
