@@ -35,6 +35,9 @@ public class TbOrder_UnitTest extends _BaseUnitTest {
         TbOrder item = new TbOrder();
         //item.setOrderId(123456L);
         tbOrderMapper.insert(item);
+        //TbOrder item 是引用类型，所以会把自动生成主键的值给orderId
+        System.out.println("orderId="+item.getOrderId());
+        System.out.println("insert_setKeyGenerator_Test="+FastJsonUtil.serialize(item));
     }
 
     @Test
